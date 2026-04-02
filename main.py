@@ -1,17 +1,32 @@
 import sys
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
 
-# Add current directory to path
-sys.path.insert(0, '.')
+# Add src directory to path (where lafo package is located)
+project_root = os.path.dirname(os.path.abspath(__file__))
+src_path = os.path.join(project_root, 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
 
-# Direct imports (avoid package issues)
-from src.lafo import build_sliding_average_operator, compute_W, lafo_loss, lafo_loss_efficient
-from src.lafo.penalized_lafo import lafo_l2_closed_form
-from src.lafo.cnn_filter import LAFOCNN
-from src.lafo.trading_backtest import mean_reversion_backtest
-from src.lafo.simulation import load_real_sp500
+# Now import from lafo package
+from lafo import (
+    build_sliding_average_operator,
+    compute_W,
+    lafo_loss,
+    lafo_loss_efficient
+)
+from lafo.penalized_lafo import (
+    lafo_l2_closed_form,
+    LAFO_L2_Penalty
+)
+from lafo.cnn_filter import (
+    LAFOCNN,
+    CNNFilter
+)
+from lafo.trading_backtest import mean_reversion_backtest
+from lafo.simulation import load_real_sp500
 
 def main():
     print("=== Advanced Signal Filtering for Mean Reversion Trading (SP500 2024-today) ===")

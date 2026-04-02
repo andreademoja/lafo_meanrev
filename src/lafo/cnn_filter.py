@@ -1,12 +1,21 @@
+"""
+CNN Filter for LAFO Mean-Reversion Strategy
+Sections 2.1-2.3: Convolutional filtering for fair value estimation
+"""
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 
 # Import from same package directory
-from src.lafo import lafo_loss
+from lafo import lafo_loss
 
-class LAFOCNN(nn.Module):
+# Alias for consistency with other modules
+class CNNFilter(nn.Module):
+    """
+    CNN filter for fair value estimation.
+    Alias for LAFOCNN for API consistency.
+    """
     def __init__(self, num_channels: int = 48, kernel_size: int = 512):
         super().__init__()
         self.conv1 = nn.Conv1d(1, num_channels, kernel_size=kernel_size, padding='same')
@@ -14,9 +23,9 @@ class LAFOCNN(nn.Module):
         self.conv2 = nn.Conv1d(num_channels, 1, kernel_size=1)
 
     def forward(self, x):
-        # x deve essere esattamente 3D: (batch, channels, length)
+        # x must be exactly 3D: (batch, channels, length)
         if x.dim() == 4:
-            x = x.squeeze(-1)   # rimuove dimensione extra se presente
+            x = x.squeeze(-1)  # remove extra dimension if present
         x = self.conv1(x)
         x = self.relu(x)
         x = self.conv2(x)
@@ -26,7 +35,7 @@ class LAFOCNN(nn.Module):
         self.train()
         optimizer = optim.Adam(self.parameters(), lr=lr)
 
-        # Creazione corretta del tensore: sempre [1, 1, T]
+        # Create tensor: always [1, 1, T]
         y_tensor = torch.from_numpy(y).float().unsqueeze(0).unsqueeze(0)
 
         for epoch in range(num_epochs):
@@ -43,4 +52,13 @@ class LAFOCNN(nn.Module):
             if epoch % 10 == 0 or epoch == num_epochs - 1:
                 print(f"Epoch [{epoch+1}/{num_epochs}]  LAFO Loss: {loss.item():.6f}")
 
-        print("LAFOCNN training completed.")
+        print("CNN training completed.")
+
+
+# Main CNN class (alias for consistency)
+class LAFOCNN(CNNFilter):
+    """
+    LAFO CNN filter with LAFO loss optimization.
+    This is an alias for CNNFilter for backward compatibility.
+    """
+    pass
