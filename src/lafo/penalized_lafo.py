@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.optimize import minimize
-from lafo import build_sliding_average_operator, compute_W
+
+# Import from same package directory
+from src.lafo import build_sliding_average_operator, compute_W
 
 def lafo_l2_closed_form(y: np.ndarray, K: int, lambda_: float) -> np.ndarray:
     """

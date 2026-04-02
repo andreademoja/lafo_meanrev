@@ -2,7 +2,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from lafo import lafo_loss
+
+# Import from same package directory
+from src.lafo import lafo_loss
 
 class LAFOCNN(nn.Module):
     def __init__(self, num_channels: int = 48, kernel_size: int = 512):
