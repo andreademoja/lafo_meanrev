@@ -39,6 +39,12 @@ from .ensemble import (
     EnsembleFilter as EnsembleEnsemble,
     FilterOptimizer
 )
+from .deep_kalman_filter import (
+    DeepKalmanFilter,
+    RecurrentDeepKalmanFilter,
+    create_deep_kalman,
+    NeuralStateTransition
+)
 # Import simulation if it exists
 try:
     from . import simulation
@@ -76,6 +82,11 @@ __all__ = [
     # Ensemble
     'EnsembleEnsemble',
     'FilterOptimizer',
+    # Deep Kalman Filter
+    'DeepKalmanFilter',
+    'RecurrentDeepKalmanFilter',
+    'create_deep_kalman',
+    'NeuralStateTransition',
     # Simulation
     'generate_synthetic_data',
     'load_real_data'
